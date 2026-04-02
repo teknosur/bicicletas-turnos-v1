@@ -281,7 +281,7 @@ app.patch('/api/services/:id', (req, res) => {
 });
 
 // Catch-all route to serve the React index.html for SPA (essential for React Router)
-app.get('/*', (req, res) => {
+app.get('/:any*', (req, res) => {
     res.sendFile(resolve(distPath, 'index.html'));
 });
 
