@@ -64,6 +64,7 @@ button {
 .text-gradient {
   background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -160,7 +161,7 @@ button {
 
 .main-content {
   flex-grow: 1;
-  padding-top: 5rem;
+  padding-top: 8rem;
 }
 
 /* Navbar */
