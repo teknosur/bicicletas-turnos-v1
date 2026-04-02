@@ -148,8 +148,28 @@ button {
   margin-bottom: 2.5rem;
 }
 
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mt-8 {
+  margin-top: 2rem;
+}
+
 .mt-10 {
   margin-top: 2.5rem;
+}
+
+.mb-12 {
+  margin-bottom: 3rem;
+}
+
+.mb-20 {
+  margin-bottom: 5rem;
+}
+
+.gap-10 {
+  gap: 2.5rem;
 }
 
 /* Layout */

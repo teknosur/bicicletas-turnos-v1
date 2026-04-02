@@ -842,7 +842,7 @@ const Admin = () => {
             </div>
 
             {/* Controls Bar */}
-            <div className="mb-6 grid gap-4 md:grid-cols-[1fr_auto]">
+            <div className="mb-12 grid gap-10 md:grid-cols-[1fr_auto]">
                 <div className="search-container">
                     <div className="search-icon">
                         <Search size={20} />
@@ -877,7 +877,7 @@ const Admin = () => {
             </div>
 
             {filteredBookings.length === 0 ? (
-                <div className="text-center py-20 bg-slate-900/30 rounded-2xl border border-white/5">
+                <div className="text-center py-20 bg-slate-900/30 rounded-2xl border border-white/5 mt-4">
                     <div className="bg-slate-800/50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                         <Filter className="text-muted" size={32} />
                     </div>
@@ -885,7 +885,7 @@ const Admin = () => {
                     <p className="text-muted">Intenta ajustar tus filtros de búsqueda</p>
                 </div>
             ) : (
-                <div className="admin-table-container">
+                <div className="admin-table-container mt-8">
                     <table className="admin-table">
                         <thead>
                             <tr>
