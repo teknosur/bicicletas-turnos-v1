@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
-import { Calendar, Clock, User, Phone, Mail, Bike, Search, Filter, Edit3, CheckCircle, Printer, MessageCircle, Settings, Wrench, Shield, Zap, X, Save } from 'lucide-react';
+import { Calendar, Clock, User, Phone, Mail, Bike, Search, Filter, Edit3, CheckCircle, Printer, MessageCircle, Settings, Wrench, Shield, Zap, X, Save, Trash2 } from 'lucide-react';
 import { useSettings } from '../context/SettingsContext';
 
 const Admin = () => {
     const { settings, updateSettings } = useSettings();
-    const API_BASE_URL = `http://${window.location.hostname}:3000`;
+    const API_BASE_URL = '';
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -152,6 +152,21 @@ const Admin = () => {
             console.error(err);
             // Revert on error
             setBookings(prev => prev.map(b => b.id === id ? { ...b, completed: currentStatus } : b));
+        }
+    };
+
+    const handleDeleteBooking = async (id) => {
+        if (window.confirm('¿Estás seguro de que quieres eliminar este pedido? Esta acción no se puede deshacer.')) {
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/bookings/${id}`, {
+                    method: 'DELETE'
+                });
+                if (!res.ok) throw new Error('Failed to delete');
+                setBookings(prev => prev.filter(b => b.id !== id));
+            } catch (err) {
+                console.error(err);
+                alert('Error al intentar eliminar el pedido.');
+            }
         }
     };
 
@@ -582,6 +597,24 @@ const Admin = () => {
             letter-spacing: 0.03em;
             background: rgba(255, 255, 255, 0.02);
         }
+
+        .btn-delete:hover {
+            color: #ef4444 !important;
+            border-color: rgba(239, 68, 68, 0.2) !important;
+            background: rgba(239, 68, 68, 0.1) !important;
+        }
+
+        .btn-whatsapp:hover {
+            color: #22c55e !important;
+            border-color: rgba(34, 197, 94, 0.2) !important;
+            background: rgba(34, 197, 94, 0.1) !important;
+        }
+
+        .btn-print:hover {
+            color: #eab308 !important;
+            border-color: rgba(234, 179, 8, 0.2) !important;
+            background: rgba(234, 179, 8, 0.1) !important;
+        }
         .status-badge-count .count-value {
             padding: 0.5rem 1rem;
             font-size: 0.95rem;
@@ -949,7 +982,7 @@ const Admin = () => {
                                             <Button
                                                 variant="ghost"
                                                 onClick={() => handlePrintReport(booking)}
-                                                className="p-2 opacity-60 hover:opacity-100 hover:text-accent transition-all"
+                                                className="p-2 opacity-60 btn-print transition-all"
                                                 title="Imprimir Orden"
                                             >
                                                 <Printer size={18} />
@@ -957,10 +990,18 @@ const Admin = () => {
                                             <Button
                                                 variant="ghost"
                                                 onClick={() => handleWhatsAppReminder(booking)}
-                                                className="p-2 opacity-60 hover:opacity-100 hover:text-green-400 transition-all"
+                                                className="p-2 opacity-60 btn-whatsapp transition-all"
                                                 title="Enviar WhatsApp"
                                             >
                                                 <MessageCircle size={18} />
+                                            </Button>
+                                            <Button
+                                                variant="ghost"
+                                                onClick={() => handleDeleteBooking(booking.id)}
+                                                className="p-2 opacity-60 btn-delete transition-all"
+                                                title="Eliminar Pedido"
+                                            >
+                                                <Trash2 size={18} />
                                             </Button>
                                         </div>
                                     </td>

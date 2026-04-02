@@ -192,6 +192,19 @@ app.patch('/api/bookings/:id', (req, res) => {
     });
 });
 
+// Delete a booking
+app.delete('/api/bookings/:id', (req, res) => {
+    const { id } = req.params;
+    
+    db.run("DELETE FROM bookings WHERE id = ?", [id], function (err) {
+        if (err) {
+            res.status(400).json({ error: err.message });
+            return;
+        }
+        res.json({ message: 'Booking deleted successfully', changes: this.changes });
+    });
+});
+
 // Settings Endpoints
 app.get('/api/settings', (req, res) => {
     db.all("SELECT * FROM settings", [], (err, rows) => {

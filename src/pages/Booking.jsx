@@ -11,7 +11,7 @@ import { ChevronLeft, Check } from 'lucide-react';
 const steps = ['Servicio', 'Fecha', 'Hora', 'Tus Datos'];
 
 const Booking = () => {
-    const API_BASE_URL = `http://${window.location.hostname}:3000`;
+    const API_BASE_URL = '';
     const navigate = useNavigate();
     const [currentStep, setCurrentStep] = useState(0);
     const [bookingData, setBookingData] = useState({

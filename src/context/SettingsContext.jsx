@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const SettingsContext = createContext();
 
 export const SettingsProvider = ({ children }) => {
-    const API_BASE_URL = `http://${window.location.hostname}:3000`;
+    const API_BASE_URL = '';
     const [settings, setSettings] = useState({
         businessName: 'CycleFix',
         adminPassword: 'admin123',
