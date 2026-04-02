@@ -15,6 +15,10 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 
+// Serve static files from the 'dist' directory (if it exists)
+const distPath = resolve(__dirname, '..', 'dist');
+app.use(express.static(distPath));
+
 // Database Setup
 const dbPath = resolve(__dirname, '..', 'bookings.db');
 
@@ -276,6 +280,11 @@ app.patch('/api/services/:id', (req, res) => {
     });
 });
 
-app.listen(PORT, () => {
+// Catch-all route to serve the React index.html for SPA (essential for React Router)
+app.get('*', (req, res) => {
+    res.sendFile(resolve(distPath, 'index.html'));
+});
+
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });

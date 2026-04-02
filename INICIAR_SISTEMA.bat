@@ -1,19 +1,28 @@
 @echo off
 TITLE Sistema de Reservas - Bicis
-echo Iniciando el sistema de reservas...
+COLOR 0A
+
+echo ==========================================
+echo    SISTEMA DE RESERVAS (INICIO)
+echo ==========================================
 echo.
+echo Selecciona el modo de inicio:
+echo 1. Modo PRODUCCION (Recomendado - Ligero)
+echo 2. Modo DESARROLLO (Vite + Node separado)
+echo.
+set /p choice="Ingresa (1 o 2): "
 
-:: Abrir una nueva ventana para el servidor de base de datos (Node.js)
-echo Lanzando Servidor de Base de Datos...
-start "Servidor/BD" cmd /k "node server/index.js"
-
-:: Esperar un momento para asegurar que la BD este lista
-timeout /t 2 /nobreak > nul
-
-:: Lanzar el servidor Web en la ventana actual
-echo Lanzando Servidor Web (Modo Red Local)...
-npm run dev -- --host
+if "%choice%"=="1" (
+    echo Iniciando Servidor de Produccion (Todo en uno)...
+    node server/index.js
+) else (
+    echo Iniciando Servidor de Base de Datos...
+    start "Servidor/BD" cmd /k "node server/index.js"
+    timeout /t 2 /nobreak > nul
+    echo Iniciando Servidor Web (Modo Red Local)...
+    npm run dev -- --host
+)
 
 echo.
-echo Sistema iniciado correctamente.
+echo Sistema detenido.
 pause
