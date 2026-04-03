@@ -1,17 +1,8 @@
 @echo off
-TITLE Sistema de Reservas - Bicis
+TITLE Sistema de Reservas - Produccion
+cd /d "%~dp0\.."
 COLOR 0A
 
-echo ==========================================
-echo    INICIANDO SISTEMA DE RESERVAS
-echo ==========================================
-echo.
-echo Iniciando Servidor (Modo Optivo / Todo en uno)...
-echo Puedes acceder en: http://localhost:3000
-echo.
-
+echo Iniciando servidor en produccion...
 node server/index.js
-
-echo.
-echo Sistema detenido.
 pause

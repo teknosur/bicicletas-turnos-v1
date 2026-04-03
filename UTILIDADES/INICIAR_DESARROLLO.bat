@@ -1,5 +1,6 @@
 @echo off
 TITLE Sistema de Reservas - Modo Programador
+cd /d "%~dp0\.."
 COLOR 0D
 
 echo ==========================================
