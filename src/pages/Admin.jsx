@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
 import { Calendar, Clock, User, Phone, Mail, Bike, Search, Filter, Edit3, CheckCircle, Printer, MessageCircle, Settings, Wrench, Shield, Zap, X, Save, Trash2, FileSpreadsheet } from 'lucide-react';
@@ -6,6 +7,7 @@ import * as XLSX from 'xlsx';
 import { useSettings } from '../context/SettingsContext';
 
 const Admin = () => {
+    const navigate = useNavigate();
     const { settings, updateSettings } = useSettings();
     const API_BASE_URL = '';
     const [bookings, setBookings] = useState([]);
@@ -30,14 +32,12 @@ const Admin = () => {
 
     // Modals State
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-    const [isServicesOpen, setIsServicesOpen] = useState(false);
-    const { services, updateService } = useSettings();
+    const { services } = useSettings();
     const [tempSettings, setTempSettings] = useState({
         businessName: '',
         adminPassword: '',
         businessLogo: ''
     });
-    const [tempServices, setTempServices] = useState([]);
 
     useEffect(() => {
         if (settings) {
@@ -47,10 +47,7 @@ const Admin = () => {
                 businessLogo: settings.businessLogo || 'bike'
             });
         }
-        if (services) {
-            setTempServices(services);
-        }
-    }, [settings, services]);
+    }, [settings]);
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -819,7 +816,7 @@ const Admin = () => {
                             </Button>
 
                             <Button
-                                onClick={() => setIsServicesOpen(true)}
+                                onClick={() => window.open('/admin/servicios', '_blank')}
                                 variant="ghost"
                                 className="text-xs font-bold uppercase tracking-widest opacity-60 hover:opacity-100 hover:text-primary transition-all flex items-center gap-1.5"
                                 style={{ padding: '8px 12px' }}
@@ -1165,129 +1162,6 @@ const Admin = () => {
                 </div>
             )}
 
-            {/* Services Modal - Service Management */}
-            {isServicesOpen && (
-                <div
-                    className="fixed inset-0 flex items-center justify-center p-4"
-                    style={{
-                        zIndex: 9999,
-                        position: 'fixed',
-                        top: 0,
-                        left: 0,
-                        width: '100vw',
-                        height: '100vh',
-                        backgroundColor: 'rgba(0, 0, 0, 0.75)',
-                        backdropFilter: 'blur(4px)'
-                    }}
-                >
-                    <div className="absolute inset-0" onClick={() => setIsServicesOpen(false)} />
-                    <Card
-                        className="relative z-10 glass border-white/10 bg-slate-900/95 shadow-2xl custom-scrollbar"
-                        style={{
-                            width: '90%',
-                            maxWidth: '600px',
-                            margin: 'auto',
-                            maxHeight: '85vh',
-                            overflowY: 'auto'
-                        }}
-                    >
-                        <div className="flex justify-between items-center mb-6">
-                            <h3 className="text-2xl font-bold text-white flex items-center gap-2">
-                                <Wrench className="text-primary" /> Gestión de Servicios
-                            </h3>
-                            <button onClick={() => setIsServicesOpen(false)} className="text-muted hover:text-white transition-colors p-1">
-                                <X size={24} />
-                            </button>
-                        </div>
-
-                        <div className="flex flex-col gap-6">
-                            <div className="flex flex-col gap-6 max-h-[450px] overflow-y-auto pr-2 pb-12 custom-scrollbar">
-                                {tempServices.map((service, sIdx) => (
-                                    <div key={service.id} className="p-4 bg-white/5 rounded-2xl border border-white/5 flex flex-col gap-4">
-                                        <div className="flex justify-between items-center">
-                                            <span className="text-xs font-black text-primary uppercase">Servicio #{sIdx + 1}</span>
-                                            <div className="flex gap-2">
-                                                {['bike', 'wrench', 'zap'].map(iconId => {
-                                                    const IconItem = iconId === 'bike' ? Bike : (iconId === 'wrench' ? Wrench : Zap);
-                                                    return (
-                                                        <button
-                                                            key={iconId}
-                                                            onClick={() => {
-                                                                const newServs = [...tempServices];
-                                                                newServs[sIdx] = { ...newServs[sIdx], icon: iconId };
-                                                                setTempServices(newServs);
-                                                            }}
-                                                            className={`p-1.5 rounded-md transition-all ${service.icon === iconId ? 'bg-primary text-white shadow-lg' : 'text-muted hover:text-white hover:bg-white/5'}`}
-                                                        >
-                                                            <IconItem size={16} />
-                                                        </button>
-                                                    );
-                                                })}
-                                            </div>
-                                        </div>
-
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <div className="flex flex-col gap-1">
-                                                <label className="text-[10px] uppercase font-bold text-muted">Título</label>
-                                                <input
-                                                    className="search-input text-sm p-2"
-                                                    style={{ paddingLeft: '0.75rem' }}
-                                                    value={service.title}
-                                                    onChange={(e) => {
-                                                        const newServs = [...tempServices];
-                                                        newServs[sIdx] = { ...newServs[sIdx], title: e.target.value };
-                                                        setTempServices(newServs);
-                                                    }}
-                                                />
-                                            </div>
-                                            <div className="flex flex-col gap-1">
-                                                <label className="text-[10px] uppercase font-bold text-muted">Precio</label>
-                                                <input
-                                                    className="search-input text-sm p-2"
-                                                    style={{ paddingLeft: '0.75rem' }}
-                                                    value={service.price}
-                                                    onChange={(e) => {
-                                                        const newServs = [...tempServices];
-                                                        newServs[sIdx] = { ...newServs[sIdx], price: e.target.value };
-                                                        setTempServices(newServs);
-                                                    }}
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div className="flex flex-col gap-1">
-                                            <label className="text-[10px] uppercase font-bold text-muted">Descripción</label>
-                                            <textarea
-                                                className="search-input text-sm p-2 min-h-[60px]"
-                                                style={{ paddingLeft: '0.75rem', resize: 'none' }}
-                                                value={service.description}
-                                                onChange={(e) => {
-                                                    const newServs = [...tempServices];
-                                                    newServs[sIdx] = { ...newServs[sIdx], description: e.target.value };
-                                                    setTempServices(newServs);
-                                                }}
-                                            />
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-
-                            <div className="flex gap-4 mt-32">
-                                <Button
-                                    className="flex-1 justify-center py-4 font-bold"
-                                    onClick={async () => {
-                                        const servicePromises = tempServices.map(s => updateService(s.id, s));
-                                        await Promise.all(servicePromises);
-                                        setIsServicesOpen(false);
-                                    }}
-                                >
-                                    <Save size={18} /> Guardar Todos los Servicios
-                                </Button>
-                            </div>
-                        </div>
-                    </Card>
-                </div>
-            )}
         </div>
     );
 };

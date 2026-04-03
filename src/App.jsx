@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Booking from './pages/Booking';
 import Success from './pages/Success';
 import Admin from './pages/Admin';
+import ServicesManagement from './pages/ServicesManagement';
 import { SettingsProvider } from './context/SettingsContext';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
                     <Route path="reservar" element={<Booking />} />
                     <Route path="exito" element={<Success />} />
                     <Route path="admin" element={<Admin />} />
+                    <Route path="admin/servicios" element={<ServicesManagement />} />
                 </Route>
             </Routes>
         </SettingsProvider>

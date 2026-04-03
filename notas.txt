@@ -4,8 +4,25 @@ https://git-scm.com/install/windows
 instalar nodejs:
 https://nodejs.org/en/download/
 
-Servidor/BD: 
-node server/index.js
+el script PREPARAR_ACTUALIZACION.bat en tu carpeta de desarrollo para automatizar este flujo. Este es el proceso ideal a seguir:
 
-Web (con red): 
-npm run dev -- --host
+1. En la PC de Desarrollo (donde programas)
+Realiza tus cambios visuales en el código.
+Ejecuta PREPARAR_ACTUALIZACION.bat.
+Este script hará el build por ti y limpiará el código.
+Generará la carpeta dist actualizada.
+2. En la PC de Producción (donde vive el cliente)
+Cierra el sistema (INICIAR_SISTEMA.bat).
+Borra la carpeta dist vieja que tiene el cliente.
+Pega la carpeta dist nueva que trajiste en tu Pendrive.
+Vuelve a iniciar el sistema.
+⚠️ REGLA DE ORO: La Base de Datos
+NUNCA lleves el archivo bookings.db de tu PC de desarrollo a la de producción. Si lo haces, sobrescribirás todos los turnos que el cliente ya haya agendado con tus datos de prueba.
+
+Solo transfiérelo si:
+
+Es la primerísima vez que instalas en ese equipo.
+Quieres hacer un "borrón y cuenta nueva".
+¡Con este método, las actualizaciones visuales son pan comido! 😊
+
+1
